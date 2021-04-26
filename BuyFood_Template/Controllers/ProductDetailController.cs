@@ -149,8 +149,6 @@ namespace BuyFood_Template.Controllers
                             coun = a.TOrderDetails.Count(x => x.CFeedBackStatus == 1 && x.CScores != null),
                             sum = a.TOrderDetails.Where(x => x.CFeedBackStatus == 1 && x.CScores != null).Sum(m => m.CScores)
                         };
-            
-            
             return Json(table);
         }
         public JsonResult getProductsByCategory(string id, string br, string lu, string di)

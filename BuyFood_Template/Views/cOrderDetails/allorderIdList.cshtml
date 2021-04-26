@@ -135,8 +135,8 @@
                     url: "/cOrderDetails/orderIdList?str="+str,
                     type: "get",
                     success: function (otherdata) {
-                        console.log(data);
-                        console.log(otherdata);
+                       /* console.log(data);*/
+                     /*   console.log(otherdata);*/
                         var txttable = "";
                         var shobtn = "";
 
@@ -155,6 +155,8 @@
                              <th class="align"  >訂單日期</th>
                              <th class="align"  >會員姓名</th>
                              <th class="align"  >訂購總計</th>
+                             <th class="align"  >折扣金額</th>
+                             <th class="align"  >折扣後金額</th>
                              <th class="align"  >訂單狀態</th>
                               <th width="15%" class="align">訂單明細</th>
                              </tr>
@@ -162,12 +164,16 @@
                              <tbody id="yuActivitytbody">`
 
                         for (let i = 0; i <= data.length - 1; i++) {
+                            var 折扣後Price = (data[i].cTotalPrice - otherdata[i].cCutPrice);
+
 
                             txttable += `<tr style="text-align:center"><td style="vertical-align: middle;"><label class="ui-checkbox"><input id="checkdelete" value="" type="checkbox" name="interest"><span class="input-span">
                                 <td style="vertical-align: middle;">${data[i].cOrderId}
                                 <td style="vertical-align: middle;">${otherdata[i].cOrderDate}
                                 <td style="vertical-align: middle;">${otherdata[i].cName}
-                                <td style="vertical-align: middle;">$${data[i].cTotalPrice}
+                                <td style="vertical-align: middle;">${data[i].cTotalPrice}
+                                <td style="vertical-align: middle;">${otherdata[i].cCutPrice}
+                                <td style="vertical-align: middle;">${折扣後Price}
                                 <td style="vertical-align: middle;">${otherdata[i].cOrderStatusName}
                                 <td style="vertical-align: middle;"><button class="btn btn-outline-primary" onclick="p訂單明細(${data[i].cOrderId})">訂單明細</button>
 
@@ -206,7 +212,7 @@
                             }
                         });
 
-                        $("#myTable_length").append(`<label id="btndelete" style = "display:none"><button type="button" class="btn button_btn btn-danger" onclick="deletemore();">刪除選中</button></label>`);
+                        $("#myTable_length").append(`<label id="btncomplete" ><button type="button" class="btn button_btn btn-danger" onclick="deletemore();">選中完成</button></label>`);
 
 
                         $("#myTable input[name = interest]").change(function Submit() {
@@ -227,17 +233,14 @@
                         })
 
 
-
-
-
                     }
-
-
 
                 });
             }
         });
     };
+
+
 
     function p訂單明細(orid) {
 
@@ -246,8 +249,8 @@
             type: "get",
             data: { "id": orid },
             success: function (data) {
-                //console.log(data)
-               
+               /* console.log(data)*/
+              
                 var txttable = "";
                 var shobtn = "";
 
@@ -261,24 +264,29 @@
                              <th class="align"  >產品名稱</th>
                              <th class="align"  >單價</th>
                              <th class="align"  >數量</th>
-                             <th class="align"  >小計</th>
+                             <th class="align"  >金額</th>
+                             <th class="align"  >付款方式</th>
                              <th class="align"  >訂單狀況</th>
                              <th class="align"  >操作</th>
+                             <th class="align"  ></th>
+                             <th class="align"  ></th>
                              </tr>
                              </thead>
                              <tbody id="yuActivitytbody">`
                 var count = 0;
                 var statusName = "";
                 var orid = 0;
+                var 折扣金額Price;
                 var orstid = 0;
+              
                 for (let i = 0; i <= data.length - 1; i++) {
                     //console.log(data)
-
+                    var paytype = (data[i].cPayTypeName);
                     var TotalPrice = 0;
                     count++;
                     orid = data[i].cOrderId;
-                    //orstid = data.cOrderStatusId
-                    statusName = data[i].cOrderStatusName
+                    折扣金額Price = data[i].cCutPrice;
+                    statusName = data[i].cOrderStatusName;
                     for (let i = 0; i <= data.length - 1; i++) {
                         totlaprice = (data[i].cQuantity) * (data[i].cPriceAtTheTime);
                         TotalPrice += totlaprice;
@@ -291,8 +299,9 @@
                                 <td style="vertical-align: middle;">${data[i].cPriceAtTheTime}
                                 <td style="vertical-align: middle;">${data[i].cQuantity}
                                 <td style="vertical-align: middle;">${data[i].cPriceAtTheTime * data[i].cQuantity}
-                                <td style="vertical-align: middle;">
-                                <td style="vertical-align: middle;">
+                                <td style="vertical-align: middle; border-right: 1px solid #dddddd;">
+                                <td style="vertical-align: middle; border-right: 1px solid #dddddd;">
+                                <td style="vertical-align: middle; border-right: 1px solid #dddddd;">
                                `
                 }
                 txttable += `   <tr style="text-align:center">
@@ -301,9 +310,30 @@
                                 <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
                                 <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
                                 <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
-                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">總計: ${TotalPrice} 元
-                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">${statusName}
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">小計: ${TotalPrice} 元
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid; border-right: 1px solid #dddddd;">
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid; border-right: 1px solid #dddddd;">
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid; border-right: 1px solid #dddddd;">
+                                <tr>
+                                <td>
+                                <td >
+                                <td >
+                                <td >
+                                <td >
+                                <td >折扣金額: ${折扣金額Price} 元
+                                <td>
+                                <td>
+                                <td style="border-right: 1px solid #dddddd;">
+                                <tr style="text-align:center ">
+                                <td>
                                 <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">總計: ${TotalPrice - 折扣金額Price} 元
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">${paytype}
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid;">${statusName}
+                                <td style="border-top:3px #4F4F4F solid;border-bottom:3px 	#F0F0F0 solid; border-right: 1px solid #dddddd;">
                                 <button   class="btn btn-primary"  onclick="order值完成(${orid})">完成訂單</button>
                                 <button   class="btn btn-danger"   onclick="order值取消(${orid})" >交易取消</button>
                                 </tbody>
@@ -420,21 +450,21 @@
         //3.若checked=true,將所有的復選框選中,checked=false,將所有的復選框取消
         var allCheck = document.getElementsByName("interest");
         //4.循環遍歷取出每一個復選框中的元素
-        //var mySpan=document.getElementById("mySpan");
+        var mySpan=document.getElementById("mySpan");
         if (checkedElt) {
             //全選
             for (var i = 0; i < allCheck.length; i++) {
                 //設置復選框的選中狀態
                 allCheck[i].checked = true;
             }
-            $("#btndelete").show();
+            $("#btncomplete").show();
             //mySpan.innerHTML="取消全選";
         } else {
             //取消全選
             for (var i = 0; i < allCheck.length; i++) {
                 allCheck[i].checked = false;
             }
-            $("#btndelete").hide();
+            $("#btncomplete").hide();
             //mySpan.innerHTML="全選";
         }
     };
@@ -445,16 +475,15 @@
         for (let i = 0; i < checked.length; i++) {
             console.log(checked[i].value);
             $.ajax({
-                url: "/yuActivity/ActionDelete?id=" + checked[i].value,
+               /* url: "/yuActivity/ActionDelete?id=" + checked[i].value,*/
+                url: "/cOrderDetails/ordercomplete?id" + checked[i].value,
                 type: "GET",
                 success: function () {   //請求成功後執行的操作
-                    window.location.reload();
+                 /*   window.location.reload();*/
                 }
             });
         }
     }
 
-    //進入此頁面執行
-    $(Activity());
 
 </script>

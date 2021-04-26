@@ -205,16 +205,18 @@ namespace BuyFood_Template.Controllers
         }
         [HttpPost]
         public IActionResult Edit(MemberManagementViewModel p)
-        {
-            string photoName = Guid.NewGuid().ToString() + ".jpg";
+        {          
+            
             if (p.image != null)
             {
+                string photoName = Guid.NewGuid().ToString() + ".jpg";
                 using (var photo = new FileStream(iv_host.WebRootPath + @"\MemberPhoto\" + photoName, FileMode.Create))
                 {
                     p.image.CopyTo(photo);
-                }
+                } 
+                p.CPicture = @"/MemberPhoto/" + photoName;
             }
-            p.CPicture = @"/MemberPhoto/" + photoName;
+           
 
             if (p != null)
             {                       
@@ -223,14 +225,12 @@ namespace BuyFood_Template.Controllers
                 {
                     table.CName = p.CName;
                     table.CEmail = p.CEmail;
-                    table.CPassword = p.CPassword;
                     table.CPhone = p.CPhone;
                     table.CGender = p.CGender;
                     table.CAddress = p.CAddress;
                     table.CBlackList = p.CBlackList;
-                    table.CDeposit = p.CDeposit;
                     table.CAge = p.CAge;
-                    table.CPicture = p.CPicture;  //←要存改照片的話就解開
+                    table.CPicture = p.CPicture==null? table.CPicture:p.CPicture;  //←要存改照片的話就解開
                     //table.CRegisteredTime = DateTime.Now; //加註冊時間進資料庫
                     db.SaveChanges();
                 }

@@ -105,6 +105,8 @@ namespace BuyFood_Template.Controllers
                             join cname in db.TMembers on allorid.CMemberId equals cname.CMemberId
                             join oderst in db.TOrderStatuses on allorid.COrderStatusId equals oderst.COrderStatusId
                             join orderdetail in db.TOrderDetails on allorid.COrderId equals orderdetail.COrderId
+                            join orderCupon in db.TCupons on allorid.CCuponId equals orderCupon.CCuponId
+                            join orderCuponPrice in db.TCuponCategories on orderCupon.CCuponCategoryId equals orderCuponPrice.CCuponCategoryId
                             where allorid.COrderStatusId == 4
                             orderby allorid.COrderId descending
 
@@ -113,12 +115,13 @@ namespace BuyFood_Template.Controllers
                                 allorid.COrderId,
                                 allorid.COrderDate,
                                 allorid.CMemberId,
+                                orderCuponPrice.CCutPrice,
                                 cname.CName,
                                 oderst.COrderStatusName
                             };
                 //消除orderdetail重複的orderid
                 var distinctID = table.Distinct().OrderByDescending(n => n.COrderId);
-
+                //return Json(table.ToList());
                 return Json(distinctID.ToList());
             }
             else if (str == "orfer取消")
@@ -127,6 +130,8 @@ namespace BuyFood_Template.Controllers
                             join cname in db.TMembers on allorid.CMemberId equals cname.CMemberId
                             join oderst in db.TOrderStatuses on allorid.COrderStatusId equals oderst.COrderStatusId
                             join orderdetail in db.TOrderDetails on allorid.COrderId equals orderdetail.COrderId
+                            join orderCupon in db.TCupons on allorid.CCuponId equals orderCupon.CCuponId
+                            join orderCuponPrice in db.TCuponCategories on orderCupon.CCuponCategoryId equals orderCuponPrice.CCuponCategoryId
                             where allorid.COrderStatusId == 3
                             orderby allorid.COrderId descending
 
@@ -136,6 +141,7 @@ namespace BuyFood_Template.Controllers
                                 allorid.COrderDate,
                                 allorid.CMemberId,
                                 cname.CName,
+                                orderCuponPrice.CCutPrice,
                                 oderst.COrderStatusName
                             };
                 //消除orderdetail重複的orderid
@@ -149,6 +155,8 @@ namespace BuyFood_Template.Controllers
                             join cname in db.TMembers on allorid.CMemberId equals cname.CMemberId
                             join oderst in db.TOrderStatuses on allorid.COrderStatusId equals oderst.COrderStatusId
                             join orderdetail in db.TOrderDetails on allorid.COrderId equals orderdetail.COrderId
+                            join orderCupon in db.TCupons on allorid.CCuponId equals orderCupon.CCuponId
+                            join orderCuponPrice in db.TCuponCategories on orderCupon.CCuponCategoryId equals orderCuponPrice.CCuponCategoryId
                             where allorid.COrderStatusId == 2
                             orderby allorid.COrderId descending
 
@@ -158,6 +166,7 @@ namespace BuyFood_Template.Controllers
                                 allorid.COrderDate,
                                 allorid.CMemberId,
                                 cname.CName,
+                                orderCuponPrice.CCutPrice,
                                 oderst.COrderStatusName
                             };
                 //消除orderdetail重複的orderid
@@ -171,6 +180,8 @@ namespace BuyFood_Template.Controllers
                             join cname in db.TMembers on allorid.CMemberId equals cname.CMemberId
                             join oderst in db.TOrderStatuses on allorid.COrderStatusId equals oderst.COrderStatusId
                             join orderdetail in db.TOrderDetails on allorid.COrderId equals orderdetail.COrderId
+                            join orderCupon in db.TCupons on allorid.CCuponId equals orderCupon.CCuponId
+                            join orderCuponPrice in db.TCuponCategories on orderCupon.CCuponCategoryId equals orderCuponPrice.CCuponCategoryId
                             where allorid.COrderStatusId==1
                             orderby allorid.COrderId descending
 
@@ -180,6 +191,7 @@ namespace BuyFood_Template.Controllers
                                 allorid.COrderDate,
                                 allorid.CMemberId,
                                 cname.CName,
+                                orderCuponPrice.CCutPrice,
                                 oderst.COrderStatusName
                             };
                 //消除orderdetail重複的orderid
@@ -193,6 +205,8 @@ namespace BuyFood_Template.Controllers
                             join cname in db.TMembers on allorid.CMemberId equals cname.CMemberId
                             join oderst in db.TOrderStatuses on allorid.COrderStatusId equals oderst.COrderStatusId
                             join orderdetail in db.TOrderDetails on allorid.COrderId equals orderdetail.COrderId
+                            join orderCupon in db.TCupons on allorid.CCuponId equals orderCupon.CCuponId
+                            join orderCuponPrice in db.TCuponCategories on orderCupon.CCuponCategoryId equals orderCuponPrice.CCuponCategoryId
                             orderby allorid.COrderId descending
 
                             select new
@@ -201,6 +215,7 @@ namespace BuyFood_Template.Controllers
                                 allorid.COrderDate,
                                 allorid.CMemberId,
                                 cname.CName,
+                                orderCuponPrice.CCutPrice,
                                 oderst.COrderStatusName
                             };
                 //消除orderdetail重複的orderid
@@ -244,7 +259,10 @@ namespace BuyFood_Template.Controllers
                         join order in db.TOrders on orderdetail.COrderId equals order.COrderId
                         join member in db.TMembers on order.CMemberId equals member.CMemberId
                         join prname in db.TProducts on orderdetail.CProductId equals prname.CProductId
+                        join paytype in db.TPayTypes on order.CPayTypeId equals paytype.CPayTypeId
                         join orderstauts in db.TOrderStatuses on order.COrderStatusId equals orderstauts.COrderStatusId
+                        join orderCupon in db.TCupons on order.CCuponId equals orderCupon.CCuponId
+                        join orderCuponPrice in db.TCuponCategories on orderCupon.CCuponCategoryId equals orderCuponPrice.CCuponCategoryId
                         select new
                         {
                             orderdetail.COrderId,
@@ -255,7 +273,9 @@ namespace BuyFood_Template.Controllers
                             orderdetail.CPriceAtTheTime,
                             orderdetail.CQuantity,
                             orderstauts.COrderStatusId,
-                            orderstauts.COrderStatusName
+                            orderstauts.COrderStatusName,
+                            orderCuponPrice.CCutPrice,
+                            paytype.CPayTypeName
                         };
 
             return Json(table.ToList());

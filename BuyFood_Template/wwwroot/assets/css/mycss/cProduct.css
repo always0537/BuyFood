@@ -2,7 +2,7 @@
 
 
 #mwt_mwt_slider_scroll {
-    top: 300px;
+    top: 350px;
     left: -200px;
     width: 200px;
     position: absolute;
@@ -23,20 +23,19 @@
     width:100%;
     font-size:larger;
 
-
 }
 
 
 
 #mwt_fb_tab {
     position: absolute;
-    top: 20px;
+    top: 10%;
     right: -24px;
     width: 24px;
     background: #3c5a98;
     color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
-    font-size:large;
+    font-size:medium;
     text-align: center;
     padding: 9px 0;
     -moz-border-radius-topright: 10px;

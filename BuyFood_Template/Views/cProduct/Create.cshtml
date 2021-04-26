@@ -16,8 +16,26 @@
 
 <div class="ibox-title" style="padding-top:50px">
     @Html.ActionLink("返回產品列表", "List", new { }, new { @class = "btn btn-success" })
-</div>
+  
+    <input type="button" class="btn btn-primary" value="Demo"  
+           onclick="(function () {
+    document.getElementById('CProductName').value = '淡定紅茶'
+    document.getElementById('CPrice').value = '45'
+    document.getElementById('CQuantity').value = '150'
+    document.getElementById('CQuantityControl').value = '200'
+    document.getElementById('CFinishedTime').value = '2'
+    document.getElementById('CDescription').value = '淡定紅茶是一則網路迷因，發文者自稱源於法國某大學論壇張貼，以旁觀者角度敘述的情侶分手故事，網上論壇轉載的名為「這是什麼分手擂台的劇情」。'
+   
 
+
+                    })()" />
+</div>
+<script>
+    //function product() {
+    //    document.getElementById("#CProductName").value = "123";
+    //}
+
+</script>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -47,7 +65,7 @@
 
             <div class="form-group">
                 <label asp-for="CProductName" class="control-label"></label>
-                <input asp-for="CProductName" class="form-control" />
+                <input asp-for="CProductName" id="CProductName" class="form-control" />
                 <span asp-validation-for="CProductName" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -145,7 +163,7 @@
             url: "/cProduct/getAllProductOnSale",
             type: "Get",
             success: function (data) {
-                console.log(data)
+              /*  console.log(data)*/
                 txt = "";
 
                 for (let i = 0; i < data.length; i++) {
@@ -170,8 +188,6 @@
               
             }
         });
-
-
 
 
 

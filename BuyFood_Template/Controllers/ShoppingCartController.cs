@@ -75,7 +75,7 @@ namespace BuyFood_Template.Controllers
         public JsonResult SearchCouponCanUse([FromBody] int MemberID)
         {
             var result = from i in new 擺腹BuyFoodContext().TCupons
-                         where i.CMenberId == MemberID && i.CBeUsed == 0
+                         where i.CMenberId == MemberID && i.CBeUsed == 0 && i.CValidDate >= DateTime.Today
                          select new
                          {
                              CouponName = i.CCuponCategory.CategoryName,
@@ -91,11 +91,13 @@ namespace BuyFood_Template.Controllers
         [HttpPost]
         public JsonResult GetMemberFavoriteItem([FromBody] int MemberID)
         {
+            DateTime TimeNow = DateTime.Now;
+
             擺腹BuyFoodContext BuyFoodDB = new 擺腹BuyFoodContext();
             var result = from i in BuyFoodDB.TOrderDetails
                          join x in BuyFoodDB.TProducts
                          on i.CProductId equals x.CProductId
-                         where i.COrder.CMemberId == MemberID
+                         where i.COrder.CMemberId == MemberID 
                          select new
                          {
                              i.CProductId,
@@ -116,9 +118,10 @@ namespace BuyFood_Template.Controllers
                 return Json(HotItemList.Take(5));
             }
             //將該會員購買最多次的商品風格作為選擇條件、隨機選取出來 
-            var FavorItem = BuyFoodDB.TProducts.Where(x => x.CProductTagId == GroupResult.Key && x.CIsOnSaleId == 1).
+            var FavorItem = BuyFoodDB.TProducts.Where(x => x.CProductTagId == GroupResult.Key && x.CIsOnSaleId == 1 && x.CIsBreakFast == 1 && x.CIsLunch == 1).
                 OrderBy(x => Guid.NewGuid()).Select(x => x).ToList().Take(5);
             return Json(FavorItem);
         }
+
     }
 }

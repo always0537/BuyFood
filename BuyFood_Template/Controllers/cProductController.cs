@@ -48,6 +48,7 @@ namespace BuyFood_Template.Controllers
                             join productca in db.TProductCategories on product.CCategoryId equals productca.CProductCategoryId
                             join productsale in db.TIsOnSales on product.CIsOnSaleId equals productsale.CIsOnSaleId
                             join producttag in db.TProductTags on product.CProductTagId equals producttag.CProductTagId
+                            orderby product.CProductId descending
                             select new
                             {
                                 product.CProductId,
@@ -255,6 +256,7 @@ namespace BuyFood_Template.Controllers
         {
 
             var data = from p in (new 擺腹BuyFoodContext()).TProductCategories
+                       orderby p.CProductCategoryId descending
                        select p;
             // List<string> list = new List<string>();
 

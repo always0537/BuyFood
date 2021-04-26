@@ -89,7 +89,7 @@ function cwc_deposit(memberID, set) {
         success: function (data) {
             if (data.totalAmount != 0) {
                 var txt = `<form style="display:none" id="formCreditCard" method="post" accept-charset="UTF-8"
-                      action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5">
+                      action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5">
 
                     <input type="text" name="MerchantID" value="${data.merchantID}" /><br />
                     <input type="text" name="MerchantTradeNo" value="${data.merchantTradeNo}" /><br />
@@ -99,7 +99,7 @@ function cwc_deposit(memberID, set) {
                     <input type="text" name="TradeDesc" value="建立信用卡測試訂單" /><br />
                     <input type="text" name="ItemName" value="${data.itemName}" /><br />
                     <input type="text" name="ReturnURL" value="${data.returnURL}" /><br />
-                    <input type="text" name="ChoosePayment" value="Credit" /><br />
+                    <input type="text" name="ChoosePayment" value="ALL" /><br />
                     <input type="text" name="StoreID" value="${memberID}" /><br />
                     <input type="text" name="ClientBackURL" value="${data.clientBackURL}" /><br />
                     <input type="text" name="CreditInstallment" value="" /><br />

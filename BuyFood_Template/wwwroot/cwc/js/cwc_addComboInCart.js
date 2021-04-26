@@ -74,6 +74,7 @@ function cwc_isExist(id) {
     for (let i = 0; i < cwc_cart.length; i++) {
         if (cwc_cart[i].cProductId === id) {
             cwc_cart[i].QuantityInCart += 1;
+            cwc_cart[i].ProductAmount += cwc_cart[i].cPrice;
             localStorage.setItem(users_cart_No, JSON.stringify(cwc_cart));
             return i;
         }

@@ -70,7 +70,7 @@
                                     <label><input type="radio" name="pay" value="1" checked>電子錢包</label>
                                 </div>
                                 <div>
-                                    <label><input type="radio" name="pay" value="2">歐付寶支付</label>
+                                    <label><input type="radio" name="pay" value="2">綠界支付</label>
                                 </div>
                             </div>
                             <div class="checkout__input">
@@ -158,64 +158,64 @@
     @*歐付寶方式*@
     @{
         <form id="formWebATM" method="post" accept-charset="UTF-8"
-              action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5" style="display:none">
+              action="https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5" style="display:none">
+            @*<form id="formWebATM" method="post" accept-charset="UTF-8"
+                  action="https://payment-stage.opay.tw/Cashier/AioCheckOut/V5" style="display:none">*@
+                
+                MerchantID 商店代號:
+                <input type="text" name="MerchantID" value="2000132" /><br />
 
-            MerchantID 商店代號:
-            <input type="text" name="MerchantID" value="2000132" /><br />
+                MerchantTradeNo 商店交易編號:
+                <input id="transaction_NO" type="text" name="MerchantTradeNo" value="DX202104022138228291" /><br />
+                @{ DateTime OrderDate = DateTime.Now;}
+                MerchantTradeDate 商店交易時間:
+                <input id="order_date" type="text" name="MerchantTradeDate" value="@OrderDate.ToString("yyyy/MM/dd HH:mm:ss")" /><br />
 
-            MerchantTradeNo 商店交易編號:
-            <input id="transaction_NO" type="text" name="MerchantTradeNo" value="DX202104022138228291" /><br />
-            @{ DateTime OrderDate = DateTime.Now;}
-            MerchantTradeDate 商店交易時間:
-            <input id="order_date" type="text" name="MerchantTradeDate" value="@OrderDate.ToString("yyyy/MM/dd HH:mm:ss")" /><br />
+                PaymentType 交易類型:
+                <input type="text" name="PaymentType" value="aio" /><br />
 
-            PaymentType 交易類型:
-            <input type="text" name="PaymentType" value="aio" /><br />
+                TotalAmount 交易金額:
+                <input id="total_amount" type="text" name="TotalAmount" value="9" /><br />
 
-            TotalAmount 交易金額:
-            <input id="total_amount" type="text" name="TotalAmount" value="9" /><br />
+                TradeDesc 交易描述:
+                <input type="text" name="TradeDesc" value="建立全金流測試訂單" /><br />
 
-            TradeDesc 交易描述:
-            <input type="text" name="TradeDesc" value="建立全金流測試訂單" /><br />
+                ItemName 商品名稱:
+                <input id="product_name" type="text" name="ItemName" value="MacBook 30元X2#iPhone6s 40元X1" /><br />
 
-            ItemName 商品名稱:
-            <input id="product_name" type="text" name="ItemName" value="MacBook 30元X2#iPhone6s 40元X1" /><br />
+                ReturnURL 付款完成通知回傳網址:
+                <input id="returnUrl" type="text" name="ReturnURL" value="https://msit129cwwebapp.azurewebsites.net/CheckCart/CatchOPayData" /><br />
 
-            ReturnURL 付款完成通知回傳網址:
-            <input id="returnUrl" type="text" name="ReturnURL" value="https://msit129cwwebapp.azurewebsites.net/CheckCart/CatchOPayData" /><br />
+                ChoosePayment 預設付款方式:
+                <input type="text" name="ChoosePayment" value="ALL" /><br />
 
-            ChoosePayment 預設付款方式:
-            <input type="text" name="ChoosePayment" value="ALL" /><br />
+                會員商店代碼:
+                <input type="text" name="StoreID" value="" /><br />
 
-            會員商店代碼:
-            <input type="text" name="StoreID" value="" /><br />
+                ChooseSubPayment 預設子付款方式:
+                <input type="text" name="ChooseSubPayment" value="" /><br />
 
-            ChooseSubPayment 預設子付款方式:
-            <input type="text" name="ChooseSubPayment" value="" /><br />
+                ClientBackURL Client端返回廠商網址:
+                <input id="backUrl" type="text" name="ClientBackURL" value="https://localhost:44398/HomePage/Home" /><br />
 
-            ClientBackURL Client端返回廠商網址:
-            <input id="backUrl" type="text" name="ClientBackURL" value="https://localhost:44398/HomePage/Home" /><br />
+                CheckMacValue 簽章類型:
+                <input type="text" name="EncryptType" value="1" /><br />
 
-            CheckMacValue 簽章類型:
-            <input type="text" name="EncryptType" value="1" /><br />
+                CheckMacValue 檢查碼:
+                <input id="check_mac_value" type="text" name="CheckMacValue" value="6475250D4965F6223187AD693D99AD84A1A681EAED2BFF7237BCCD3CCB829202" /><br />
 
-            CheckMacValue 檢查碼:
-            <input id="check_mac_value" type="text" name="CheckMacValue" value="6475250D4965F6223187AD693D99AD84A1A681EAED2BFF7237BCCD3CCB829202" /><br />
+                <input id="send_to_opay" type="submit" value="送出訂單" />
 
-            <input id="send_to_opay" type="submit" value="送出訂單" />
-
-        </form>
-    }
-    <script src="~/js/CheckCart_JS/CheckCart.js"></script>
-    <script>
-        $(function () {
-            $("#sidebar_secondary").css("display", "none");
-        })
-    </script>
-    <!-- Checkout Section End -->
-
-
-    <!-- Js Plugins -->
+            </form>
+            }
+            <script src="~/js/CheckCart_JS/CheckCart.js"></script>
+            <script>
+                $(function () {
+                    $("#sidebar_secondary").css("display", "none");
+                })
+            </script>
+            <!-- Checkout Section End -->
+            <!-- Js Plugins -->
 </body>
 
 </html>

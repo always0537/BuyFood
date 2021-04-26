@@ -136,7 +136,7 @@ namespace BuyFood_Template.Controllers
             string ClientBackURL)
         {
             string rawString = $"HashKey=5294y06JbISpM5x9" +
-    $"&ChoosePayment=Credit&ClientBackURL={ClientBackURL}" +
+    $"&ChoosePayment=ALL&ClientBackURL={ClientBackURL}" +
     $"&CreditInstallment=" +
     $"&EncryptType=1" +
     $"&InstallmentAmount=" +

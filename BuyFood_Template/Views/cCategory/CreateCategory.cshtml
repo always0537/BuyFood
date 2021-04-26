@@ -7,6 +7,8 @@
 
 <h4>新增產品類別</h4>
 <hr />
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="CreateCategory">
@@ -25,6 +27,15 @@
 
 <div>
     @Html.ActionLink("返回產品類別列表", "CategoryList", new { }, new { @class = "btn btn-success" })
+    <input type="button" class="btn btn-primary" value="Demo"
+           onclick="(function () {
+    document.getElementById('CCategoryName').value = '限時特價'
+    document.getElementById('CPrice').value = '45'
+
+
+
+                    })()" />
+
 </div>
 
 @*@section Scripts {
